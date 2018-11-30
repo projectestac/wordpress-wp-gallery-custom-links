@@ -203,7 +203,11 @@ class WPGalleryCustomLinks {
 		$attachment_ids = array();
 		if( isset( $attr['ids'] ) ) {
 			// WP 3.5+:
-			$attachment_ids = array_merge( $attachment_ids, explode( ',', $attr['ids'] ) );
+      			if ( is_string( $attr['ids'] ) ) {
+       				$attachment_ids = array_merge( $attachment_ids, explode( ',', $attr['ids'] ) );
+      			} elseif ( is_array( $attr['ids'] ) ) {
+        			$attachment_ids = array_merge( $attachment_ids, $attr['ids'] );
+      			}
 		} else {
 			// < WP 3.5:
 			// Get the attachment ids for this post
@@ -214,7 +218,11 @@ class WPGalleryCustomLinks {
 		} // End if it's the "ids" attribute way of specifying images or not
 		// Add in any "include"d attachmentIDs
 		if( isset( $attr['include'] ) ) {
-			$attachment_ids = array_merge( $attachment_ids, explode( ',', $attr['include'] ) );
+		      if ( is_string( $attr['include'] ) ) {
+			      $attachment_ids = array_merge( $attachment_ids, explode( ',', $attr['include'] ) );
+		      } elseif ( is_array( $attr['include'] ) ) {
+			      $attachment_ids = array_merge( $attachment_ids, $attr['include'] );
+		      }
 		}
 		
 		// Make sure we don't replace the same one multiple times
